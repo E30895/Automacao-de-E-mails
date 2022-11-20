@@ -1,24 +1,18 @@
-import pandas as pd
-import numpy as np
-import win32com.client as win32
-from datetime import date
-
-
 def manipulador():
     data_atual = date.today()
     data = data_atual.strftime('%d.%m')
     df_geral = pd.read_excel('INADIMPLENCIA.xlsx')
 
     sureg = [
-        '37 - SUREG PORTO ALEGRE', 
-        '6 - SUREG CENTRO',
-        '5 - SUREG SERRA',
-        '4 - SUREG SUL',
-        '8 - SUREG NOROESTE',
-        '7 - SUREG FRONTEIRA',
-        '38 - SUREG OUTROS ESTADOS',
-        '14 - SUREG LESTE',
-        '9 - SUREG ALTO URUGUAI']
+        '37 - S1', 
+        '6 - S2',
+        '5 - S3',
+        '4 - S4',
+        '8 - S5',
+        '7 - S6',
+        '38 - S7',
+        '14 - S8',
+        '9 - S9']
 
     emails = [
         'email 1',
@@ -38,7 +32,7 @@ def manipulador():
     while i <= len(sureg):
         df_manipulado = df_geral[df_geral['SUREG'] == f'{sureg[i-1]}']
         df_manipulado = df_manipulado.sort_values(by="Agência", ascending = True).reset_index(drop = True)
-        df_manipulado.to_excel(f'INADIMPLENCIA FGI {sureg[i-1]} {data}.xlsx', index=False)
+        df_manipulado.to_excel(f'INADIMPLENCIA LINHA {sureg[i-1]} {data}.xlsx', index=False)
 
     
         #Contando operações sem repetições
@@ -58,7 +52,7 @@ def manipulador():
         #Utilizando o Openxl para escrever em VBA
         outlook = win32.Dispatch('outlook.application')
         email = outlook.CreateItem(0)
-        anexo = fr"C:\Users\eusou\OneDrive\Documentos\Python\Projetos\E-mails inadimplencia\INADIMPLENCIA FGI {sureg[i-1]} {data}.xlsx"
+        anexo = fr"C:\Users\eusou\OneDrive\Documentos\Python\Projetos\E-mails inadimplencia\INADIMPLENCIA LINHA {sureg[i-1]} {data}.xlsx"
 
         #email.SentOnBehalfOfName = ""
         email.to = f'{emails[i-1]}'
